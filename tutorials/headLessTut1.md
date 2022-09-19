@@ -51,10 +51,10 @@ On High Performance Computers, Docker-containers, and resource restricted hardwa
 
 * 3. Automation! This is my favorite reason. Dockerfiles are basically glorified Bourne Again Shell (BASH) scripts. The CLI greatly enables what is referred to as powerusers, a poweruser is someone who has learned to efficiently address reoccuring problems using a script of bash commands. BTW, Dockerised containers empower the web, and they make up the brunt of large scale websites now. Amazon Web Services (AWS), are deeply founded on Dockercontainers.
 
-# Why virtual environments?
+### Why virtual environments?
 Virtual environments allow you to setup multiple code projects with complicated dependencies, in a way that each projects dependencies is contained to the scope of the virtual environment. The benefit of this cheap containerisation is it stops the creation of circular dependencies.
 
-# Anatomy of the Linux prompt:
+### Anatomy of the Linux prompt:
 
 Linux commands can seem duanting to the uninitiated so, lets find a long command and break it down into explainable parts.
 
@@ -72,7 +72,7 @@ the `~` symbol means the home directory. Tip: you can return to home directory f
 `SLURM=1` is an a command specific to the Intel superhost that means give the user an interactively allocated CPU to play with here and now. The impact of running
 
 
-#### Why SLURM?
+### Why SLURM?
 
 Slurm is a scalable cluster management and job scheduling system for Linux clusters. As a cluster workload manager, SLURM allocates compute nodes)to users for some duration of time so they can perform work. Second, it provides a framework for starting, executing, and monitoring work (normally a parallel job) on the set of allocated nodes. SLURM arbitrates contention for resources by managing a queue of pending work.
 
