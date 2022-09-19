@@ -158,6 +158,9 @@ Investigating the contribution of Scale to Loihi Speed
 2.4.2 Practical
 
 
+In fact the reason for the existence of Lava is to address fragmentation in the field.
+
+
 
 Below is a diagram of the Potjan's cortical model. This model can be thought of as the composition of many weighted directed graphs, therefore we will use Lava a supported interface to begin to build a cortical model with the Python Loihi simulator.
 
