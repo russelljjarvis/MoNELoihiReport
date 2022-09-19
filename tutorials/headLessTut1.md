@@ -20,40 +20,29 @@ Length: $1200$ words.
 
 Todays tutorial is the easier of the two tutorials.
 
-# Assessable parts of todays tutorial:
+### Assessable parts of todays tutorial:
 
-You have configured ssh on your personal computer, congrats for that I will give you 1/15 marks for that.
 
-Create and populate a file `~/.bash_profile` 1/15 marks.
+Most of the exercises are worth one mark if you describe them as in the report next week. The work we cover today will add up to 15 available points that will be marked on the final report.
 
-(1 mark) Create a functional lava virtual environment, and an alias for activating the virtual environment for in ~/.bash_profile called actlav (activate lava). Take a screenshot of the ~/.bash_profile. 
 
-Type `source ~/.bash_profile` every time you change this file and you want the changes to take effect. Note logging in and out of ssh is also sufficient to "source" the file.
+### You have configured ssh on your personal computer, congratulations for that!
 
-File `~/.bash_profile` contents:
-```
-source /nfs/ncl/.bashrc
-# This is a BASH commment
-# If you called your virtual environment lava_venv
-# The alias below will activate the environment. 
-alias activ='source ~/lava_venv/bin/activate' 
-# to deactivate type the commmand`: deactivate
-# create an alias, that automatically takes you to a long and hard to remember path:
-alias tuts='cd /homes/rjjarvis/nxsdk-apps-20220419-142407/n2_apps/tutorials/nxnet'
-```
+
+### Background
 
 Ways to access POSIX compliant terminals: OSX Terminal, Ubuntu Terminal, GitBash (for Windows) or Windows sub-system for Linux (WSL), `Docker run -it`, the list goes on and on. Probably every major operating system supports either BASH, or some other POSIX compliant shell (Powershell is POSIX compliant). 
 
-# For the first of two tutorials we will:
+### For the first of two tutorials we will:
 * Secure Shell (ssh). Note to "ssh" is meant as a verb in this context. We will ssh into the Intel superhost and navigate the Linux environment.
 * Use secure copy (scp) and pip to install lava version tag 0.3.0 (the penultimate version).
 * Hopefully run a trivial lava programm using SLURM=1.
-* scp the output of a lava simulation back to our local computer so we can comment on it.
+* `scp` the output of a lava simulation back to our local computer so we can comment on it.
 
 
-## Background:
+### Background:
 
-## Why Headless Linux?
+### Why Headless Linux?
 On High Performance Computers, Docker-containers, and resource restricted hardware environments: Raspberri-PI, NVIDIA Jetson Nano etc. A "head-less" Linux login is default interface for accessing the resource. There are multiple reasons for this:
 
 * 1. A graphical Operating System (OS) acts as a large memory and CPU and load. On a raspberri-pi you will likely prefer to keep all the RAM and CPU for developing applications. Trying to use the graphical OS will likely be unresponsive and clunky anyway, as it is on the Nvidia Jetson Nano. 
@@ -64,7 +53,6 @@ On High Performance Computers, Docker-containers, and resource restricted hardwa
 
 # Why virtual environments?
 Virtual environments allow you to setup multiple code projects with complicated dependencies, in a way that each projects dependencies is contained to the scope of the virtual environment. The benefit of this cheap containerisation is it stops the creation of circular dependencies.
-
 
 # Anatomy of the Linux prompt:
 
@@ -94,7 +82,36 @@ Running quick jobs occasionally without SLURM will not be noticed, but if a pers
 
 CLI help with re-typing long commands. If you type the command `$history`, the whole terminal screen will fill up with the most recent commands typed.
 
-## Exercises:
+### Exercises:
+
+
+#### How to edit files on Headless Linux:
+
+In order to edit files on headless Linux, you can use any of the three editors: nano, vim, emacs. Nano is often the begginers preferred choice as it has no learning curve, and there is always a cheat sheet down the bottom, VIM is often preffered by knowledgable linux users and power-users.
+
+Once you have sshd into the Intel cloud superhost you should edit your `~/.bash_profile` file. If there is no `~/.bash_profile` file in your home directory, please create one with `touch ~/.bashrc`, you can then edit this empty file with `nano ~/.bash_profile`. In your `~/.bash_profile` file, add this line: `source /nfs/ncl/.bashrc`, as the 1st line, what this does is, it inherits an initialization script from an Intel template stored in the server root directory `/`, is the root directory. 
+
+Source your `~/.bash_profile` file to load the changes with this command: source `~/.bash_profile`. Now test to see that you did it correctly. Here's some typical output when running `sinfo command:username@THE_NRC_VM ~ % sinfo`.
+
+
+Create and populate a file `~/.bash_profile` 1/15 marks.
+
+(1 mark) Create a functional lava virtual environment, and an alias for activating the virtual environment for in ~/.bash_profile called actlav (activate lava). Take a screenshot of the ~/.bash_profile. 
+
+Type `source ~/.bash_profile` every time you change this file and you want the changes to take effect. Note logging in and out of ssh is also sufficient to "source" the file.
+
+File `~/.bash_profile` contents:
+```
+source /nfs/ncl/.bashrc
+# This is a BASH commment
+# If you called your virtual environment lava_venv
+# The alias below will activate the environment. 
+alias activ='source ~/lava_venv/bin/activate' 
+# to deactivate type the commmand`: deactivate
+# create an alias, that automatically takes you to a long and hard to remember path:
+alias tuts='cd /homes/rjjarvis/nxsdk-apps-20220419-142407/n2_apps/tutorials/nxnet'
+```
+
 
 ```
 source /nfs/ncl/.bashrc
@@ -106,14 +123,6 @@ As soon you ssh into your Linux environment you will need to upgrade pip
 ```pip install --upgrade pip```
 
 
-### How to edit files on Headless Linux:
-
-In order to edit files on headless Linux, you can use any of the three editors: nano, vim, emacs. Nano is often the begginers preferred choice as it has no learning curve, and there is always a cheat sheet down the bottom, VIM is often preffered by knowledgable linux users and power-users.
-
-Once you have sshd into the Intel cloud superhost you should edit your `~/.bash_profile` file. If there is no `~/.bash_profile` file in your home directory, please create one with `touch ~/.bashrc`, you can then edit this empty file with `nano ~/.bash_profile`. In your `~/.bash_profile` file, add this line: `source /nfs/ncl/.bashrc`, as the 1st line, what this does is, it inherits an initialization script from an Intel template stored in the server root directory `/`, is the root directory. 
-
-Source your `~/.bash_profile` file to load the changes with this command: source `~/.bash_profile`. Now test to see that you did it correctly. Here's some typical output when running `sinfo command:username@THE_NRC_VM ~ % sinfo`.
-
 At some point it might be useful to know that your Intel Loihi organization is as follows: `export YOURORG="edu"`, THE_NRC_VM: ncl-edu
 
 
@@ -121,10 +130,10 @@ For example: `sinfo command:jdnuerf@ncl-edu ~ % sinfo`
 ... or: `sinfo command:drice@ncl-edu ~ % sinfo`
 
 
-## Background:
+### Background:
 
-## At least **Five** major ways to program Loihi:
-### Lava, and older methods: **NXSDK, NXNET, SNIPS (C code), Nengo-Loihi.
+#### At least **Five** major ways to program Loihi:
+#### **Lava**, and older methods: NXSDK, NXNET, SNIPS (C code), Nengo-Loihi.
 In-fact one of the motivations for Lava's existence is because methods for programming Loihi where becoming too fragmented, Lava is a glue language like Python. 
 
 #### Importantly, Lava itself has several components: Lava-DL, Lava-DNF and Lava optimisation.
@@ -145,58 +154,34 @@ A recurrent neural network is a directed graph, it is also a function of Vertice
 Loihi 1 impliments a variant of the current-based synapse (CUBA) and leaky integrate and fire neuron model with two internal state variables:
 * Synaptic  Current $ u_{i}(t) $ - the weighted sum of the input spikes and a constant bias. When you plot this, this is basically telling you how much or how many excitatory synaptic events the neuron is receiving.
 * Membrane potential $v_{t}(t)$  a leaky (ie weakens over time) membrane voltage function, which sends a spike when the potential passes the firing threshold.
-  * Unusual property of $v_{t}(t)$ it has highly non-biological plausible values $ [-100,000, 100,000] mV$ is normal.
+
 
 # Loihi supports graded spike amplitudes, and that makes certain things possible.
 
 If you are programming in a manner where you record spike times, but not raw neuron voltages you may not notice that the simulated membrane potential of a current based Loihi neuron is unitless, and swings between: [−100,000,100,000]**. Remember that [-90,-50] $mV$ is a normal range of neuron membrane potential in biologically grounded models like the standard LIF model. On Loihi this range has been re-normalised to be $ [-2^{23}, 2^{23}-1].
 
+  * Unusual property of $v_{t}(t)$ it has highly non-biological plausible values $ [-100,000, 100,000] mV$ is normal.
 
-## Exercises:
-
-```
-scp run_lava_dl.py ncl-edu.research.intel-research.net:~
-```
-
-Note `~` is home in any bash environment.
-```
-scp -r local_folder_name ncl-edu.research.intel-research.net:~/
-```
-
-
-
+![Loihi_CUBA_model_param.png](loihi_fig/Loihi_CUBA_model_param.png)
 
 
 
 
 ### Exercises
-#### Install lava from source. 
-
-First create a virtual environment.
-
-```
-cd ~ 
-python3 -m venv lava_venv 
-source lava_venv/bin/activate` 
-```
-git tag -n to get the second latest tag 0.3.0
-
-Then git checkout the release corresponding to tag 0.3.0 using the command git checkout
-
-
-git clone will not work there but git generally works
-
 
 When complete, deactivate the virtual environment with the simple command 
 `deactivate`
    
-Remember to activate virtual environments every time you ssh back in and do development work with lava, unless you have configured your `~/.bash_profile`, to do this for you. 
+Remember to activate virtual environments every time you `ssh` back in and do development work with lava, unless you have configured your `~/.bash_profile`, to do this for you. 
 
 
 ### Launch Python from the command line:
 simply typing `python` with no arguments will launch Python.
 To apply Python to a script file type:
 `python script_file_name.py`
+
+### Except we are on the Intel superhost, so remember to do:
+`SLURM=1 python script_file_name.py`
 
 ### Gotcha: No Longer in the virtual environment.
 Overnight, you might choose to sleep instead of code. In sleep you will time out from ssh, when you log back in again, you fail to notice that you are no longer in the Python virtual enviroment.
@@ -246,11 +231,11 @@ pip install --upgrade pip # already done above.
 cp /nfs/ncl/lava/releases/v0.4.0/lava-nc-loihi-0.4.0.tar.gz ./.
 pip install lava-nc-loihi-0.4.0.tar.gz
 ```
-
-# In BASH:
+### Exercises Continued...
+#### In BASH:
 the `echo` command is analogous to `print` in Python, except it echo requires no braces for its arguments to print. `>>` means redirect. Redirection means instead of printing something to the screen, print the stdout to a file instead.
 
-Exercises:
+#### Exercises:
 Continued from above execute the following BASH code and explain what it does in a few sentences (same 1 as above mark):
 ```
 echo export SLURM=1  >> ~/.bashrc
@@ -259,10 +244,9 @@ echo export C_INCLUDE_PATH=\$C_INCLUDE_PATH:$(pwd)/lava-nc-loihi-0.4.0/tutorials
 ```
 
 
-# Be Careful With the Following: 
+#### Be Careful With the Following: 
 * **Don't** execute the following, but for one mark explain what it does.
 
-(lava_nx_env) rjjarvis@ncl-edu:~$ SLURM=1 BOARD=ncl-ext-og-04 PARTITION=oheogulch python lava_test.py
 
 ```
 ​echo export BOARD=ncl-ext-og-04  >> ~/.bashrc
@@ -272,6 +256,9 @@ echo export PARTITION=oheogulch  >> ~/.bashrc
 ```
 cd lava-nc-loihi-0.4.0):
 SLURM=1 LOIHI_GEN=N3B3 PARTITION=oheogulch RUN_LOIHI_TESTS=1 RUN_IT_TESTS=1 python -m unittest -v tests/lava/integration/<test_python_script>.py
+```
+```
+(lava_nx_env) rjjarvis@ncl-edu:~$ SLURM=1 BOARD=ncl-ext-og-04 PARTITION=oheogulch python lava_test.py
 ```
 
 Finally for 2 marks open VIM or Nano, instance those respective programs with a file name such as test lava: `vim lava_test.py`
@@ -369,3 +356,35 @@ When running the simulated Loihi, is a the network faster or slower for a simula
 Using the `Loihi2HwCfg()` hardware executor compare the same job run on both machines, using network sizes 1by1, and 10 by 10 in hardware. Compare the speeds of these two sizes of network simulation on hardware.
 
 Is using the hardware faster or slower than the simulator? In your answer include a discussion about software to hardware communication. Also note that the type of job we gave the hardware did not involve causing the network to spike, or communication of spikes between neurocores on Loihi. Given that there was no production of or communication of spikes, what extra steps might we include to make the hardware simulation faster than the software simulation? 
+## Preview:
+
+### Next week we will look at installing Lava from source code.
+We will look at running less trivial examples, this may include installing lava from source code on your local machine, or the Intel Superhost as appropriate. 
+
+First create a virtual environment.
+
+```
+cd ~ 
+python3 -m venv lava_from_src
+source lava_from_src/bin/activate
+git tag -n # to list the second latest tag 0.3.0
+git checkout # enter tag number from above.
+```
+Then git checkout the release corresponding to tag 0.3.0 using the command git checkout
+
+
+git clone will not work there but git generally works. We can scp the github version of lava onto the Loihi superhost.
+
+
+#### Next Week will Look into using scp or rsync too:
+
+Note `scp` is like `cp` and `ssh` combined into the same statement.
+
+```
+scp run_lava_dl.py ncl-edu.research.intel-research.net:~
+```
+
+Note `~` is home in any bash environment.
+```
+scp -r local_folder_name ncl-edu.research.intel-research.net:~/
+```
