@@ -260,7 +260,7 @@ echo export C_INCLUDE_PATH=\$C_INCLUDE_PATH:$(pwd)/lava-nc-loihi-0.4.0/tutorials
 
 
 ```
-​echo export BOARD=ncl-ext-og-04  >> ~/.bashrc
+echo export BOARD=ncl-ext-og-04  >> ~/.bashrc
 echo export PARTITION=oheogulch  >> ~/.bashrc
 ```
 
