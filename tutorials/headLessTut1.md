@@ -312,7 +312,7 @@ We want to profile the run time of the whole script.
 
 Paste the following code statements at select locations in the code
 
-```
+```python
 import cProfile
 def main():
         """
@@ -320,7 +320,13 @@ def main():
         """
         return None
 if __name__ == '__main__':
-    cProfile.run('main()')
+    import cProfile, pstats
+    profiler = cProfile.Profile()
+    profiler.enable()
+    main()
+    profiler.disable()
+    stats = pstats.Stats(profiler).sort_stats('cumtime')
+    stats.print_stats()
 ```
 
 Now make a copy of the file:
