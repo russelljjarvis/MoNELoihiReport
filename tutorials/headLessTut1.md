@@ -329,8 +329,20 @@ if __name__ == '__main__':
     stats.print_stats()
 ```
 
-Now make a copy of the file:
-`cp lava_test.py bigger_lava_test.py`
+
+
+Now make four copies of the file:
+`cp lava_test.py bigger_lava_test0.py`
+`cp lava_test.py bigger_lava_test1.py`
+`cp lava_test.py bigger_lava_test2.py`
+`cp lava_test.py bigger_lava_test3.py`
+
+Edit these four different files in-order to reflect these four different conditions:
+
+|       | Hardware |  CPU simulation |
+| ----------- | ----------- | ----------- |
+| layer size     | 1       |  1       |
+| layer size    | 100        |  100        |
 
 Now we want to make the network bigger, and we want to explore how making the network bigger slows down CPU performance.
 
