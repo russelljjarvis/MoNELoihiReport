@@ -290,7 +290,7 @@ Finally for 2 marks open VIM or Nano, instance those respective programs with a 
 
 paste the following contents into the file:
 
-```
+```python
     # Instantiate Lava processes to build network
     from lava.proc.dense.process import Dense
     from lava.proc.lif.process import LIF
