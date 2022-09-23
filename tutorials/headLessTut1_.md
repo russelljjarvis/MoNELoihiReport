@@ -10,8 +10,8 @@
 </h3>
 
 <summary>
-<h3 align="center">
-### Take Home Assessment
+<h3>
+Take Home Assessment
 </h3>
 </summary>
 
