@@ -164,7 +164,7 @@ For example: sinfo command:jdnuerf@ncl-edu ~ % sinfo ... or: sinfo command:drice
 #### At least **Five** major ways to program Loihi:
 #### **Lava**, and older methods: NXSDK, NXNET, SNIPS (C code), Nengo-Loihi.
 
-One of the motivations for Lava's existence is because methods for programming Loihi were becoming too fragmented. In some respects, Lava is a unifying glue module analogous to Python and BASH as languages.
+One of the motivations for Lava's existence is because methods for programming Loihi were becoming too fragmented. One of the visions of Lava was that it should be a unifying glue module that was proported to be able to call all of these older methods for running Loihi when appropriate.
 
 ### Lava itself has several components: Lava-DL (Deep Learning), Lava-DNF (Dynamic Neural Fields) and Lava optimisation.
 
