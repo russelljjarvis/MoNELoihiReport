@@ -48,7 +48,11 @@ Many vendors provide access to POSIX-compliant terminals. For example, there is 
 
 ### Background:
 
+<summary>
 ### Why Headless Linux?
+</summary>
+
+<details>
 On High-Performance Computers, Docker-containers, and resource-restricted hardware environments: Raspberri-PI, NVIDIA Jetson Nano etc. A "head-less" Linux login is often the default interface for accessing the resource. There are multiple reasons for this:
 
 * A graphical Operating System (OS) acts as memory and CPU and load. On a Raspberry Pi, you will likely prefer to keep all the RAM and CPU for developing applications. Using a Raspberry Pi, the graphical OS will probably be unresponsive and clunky, as it is on the Nvidia Jetson Nano.
@@ -66,6 +70,7 @@ After using:
 ssh ncl-edu.research.intel-research.net
 ```
 to log into the Intel superhost, to see the activity of currently logged in users type `top`
+</details>
 
 ### Background
 
