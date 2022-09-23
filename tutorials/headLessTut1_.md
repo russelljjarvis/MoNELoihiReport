@@ -49,7 +49,7 @@ Many vendors provide access to POSIX-compliant terminals. For example, there is 
 ### Background:
 
 <summary>
-### Why Headless Linux?
+<h3> Why Headless Linux? </h3>
 </summary>
 
 <details>
