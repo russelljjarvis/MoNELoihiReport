@@ -9,7 +9,13 @@
     r.jarvis@westernsydney.edu.au
 </h3>
 
+<summary>
+<h3 align="center">
 ### Take Home Assessment
+</h3>
+</summary>
+
+<details>
 Weight: `30%` Type of Collaboration: Individual Submission: Weeks 9 by Friday 11:59pm (midnight) Turnit in, or optionally Markdown file or jupyter notebook on Github (just like this file, iself).
 
 Format
@@ -19,6 +25,8 @@ References, quotes, and appendices are not part of the word count. Length: 1200 
 
 Note that today's tutorial is the easier of the two tutorials, but the technical skills taught today are the foundation for next Week's tutorial.
 
+</details>
+      
 ### Assessable parts of todays tutorial:
 
 Most of the exercises are worth one mark if you describe them in the report next week. The work we cover today will add up to 15 available points marked on the final report. The final report totals 30 available marks, but it will span content from today's and next week's tutorials.
