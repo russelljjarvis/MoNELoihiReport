@@ -17,7 +17,7 @@ The report will consist of 1000−1200 words and several figures. This report ai
 
 References, quotes, and appendices are not part of the word count. Length: 1200 words. You can include screenshots from todays Intel ssh experience, you can also paste BASH commands and Python code directly into markdown cells.
 
-Note that today's tutorial is the easier of the two tutorials, but the technical skills taught today are the foundation for next Week's tutorial.
+Note that today's tutorial is the harder of the two tutorials, but the technical skills taught today are the foundation for next Week's tutorial.
 
 <summary>
 
@@ -26,7 +26,12 @@ Note that today's tutorial is the easier of the two tutorials, but the technical
 </summary>
 
 <details>
-
+  * compute the inter-spike intervals of spike times.
+    * If spike times are in an array, you want get the delta between spk_times[1]-spk_times[0], and spk_times[2]- spk_times[1], ..., spk_times[N]- spk_times[N-1].
+      * Each of these deltas constructed from pairs will be the element of an array called ISI.
+  * Compute the coefficient of variation of Interspike intervals of spike trains. var(ISI)/mean(ISI). This a measure of dispersal, ie spike interval irregularity.
+  * get the mean CV of a population of cells.
+  * Regular asynchronous spiking.
 * How to kill your zombie processes:
   * SLURM `scancel`.
   * Linux everywhere else: `top`, and `kill`.
@@ -42,20 +47,82 @@ For low and high variability of spike times, comment on the ability of neurons t
 
 
 
+### Reservoir Computing and Echo State balanced E/I networks.
 
+Take the spike trains corresponding to cells 18 and 23 [](https://github.com/russelljjarvis/lava/blob/main/tutorials/end_to_end/tutorial02_excitatory_inhibitory_network.ipynb
+) of the notebook. Flesch out the skeleton methods provided on [](https://github.com/russelljjarvis/lava/blob/main/app.py#L622-L636) to compute the Interspike Interval arrays and the Coefficient of Variation of the spike trains.
+
+The $ ISI_{CV} $ is actually less useful than the auto-covariance measures calculated in the network, but the CV is very simple to implement and understand.
+
+
+
+Task for two pre-existing Unit test files in the lava-loihi tests directory, run the two files to completion
+Comment out any method decorators that look like they would 
+.
+
+
+```BASH
+cd $HOME
+
+scp ncl-edu.research.intel-research.net:/nfs/ncl/lava/releases/v0.4.0/lava-nc-loihi-0.4.0.tar.gz .
+tar -xf lava-nc-loihi-0.4.0.tar.gz
+cd lava-nc-loihi-0.4.0
+cd tests/lava/integration
+code test_integration_uc_lif_dense_lif.py
 
 ```
-# Untar the lava.tar.gz
-tar -xzvf lava-nc-loihi-0.4.0.tar.gz
+
+Decorator requires LMT (Lakemount CPU)
+```python
+@implements(proc=Injector, protocol=LoihiProtocol)
+@requires(LMT)
+```
+nc means neuro-core.
+
+```python
+        weights = (np.arange(in_size * out_size).reshape(out_size, in_size) + 1)
+        bias = 10 * np.ones(in_size, dtype=np.int32)
+
+        input_lif = LIF(shape=(in_size,),
+                        du=0,
+                        dv=0,
+                        bias_mant=bias,
+                        bias_exp=6,
+                        vth=20)
+        output_lif = LIF(shape=(out_size,),
+                         du=4096,
+                         dv=4096,
+                         vth=1024)
+        dense = Dense(weights=weights)
+
+        input_lif.s_out.connect(dense.s_in)
+        dense.a_out.connect(output_lif.a_in)
+
+        nc_domain = SyncDomain("nc", LoihiProtocol(), [input_lif, dense,
+                                                       output_lif])
+ ```
+
+```python
+py_process = RingBuffer(**py_params)
+spikes_computed = py_process.data.get()
 ```
 
+Comment out any decorators that look like this:
+
+`@unittest.skip`
+`RUN_IT_TESTS=1`
+unless it says: `@skipUnless(run_it_tests, "")` as we launch Python with the argument `RUN_IT_TESTS=1`, this argument is visible to the Unit test function decorator.
+
+#@unittest.skipUnless(run_it_tests, "") 
+
+# activate the lava virtual environment using the alias you defined in lab1.
+``` BASH
+cd lava-nc-loihi-0.4.0
+SLURM=1 LOIHI_GEN=N3B3 PARTITION=oheogulch RUN_LOIHI_TESTS=1 RUN_IT_TESTS=1 python -m unittest -v tests/lava/integration/test_integration_multi_layer_lif_dense_with_io.py
 ```
-# activate lava virtual environment.
 
-Edit the code here:
-tests/lava/integration/test_integration_multi_layer_lif_dense_with_io.py
+lava-nc-loihi-0.4.0/tests/lava/integration/test_integration_multi_layer_lif_dense_with_io.py
 
-put in calls to elephant spike distance, and elephant coefficient of variation.
 
 source lava_nx_env/bin/activate
 ```
@@ -73,11 +140,50 @@ intel
 
 #### The Lava task-graph.
 
-calling run on a leaf-node (or root node) is sufficient to run the network comprised by the whole task-graph.
+In Lava design all of the different processes that make up a Network simulation, all of the processes are constructed togethor into a compute job task-graph. This is a bit similar to other parallel computing paradigms like Python Dask.
+
+Calling run on a leaf-node (or root node) is sufficient to run the network comprised by the whole task-graph.
 
 ![](loihi_fig/leaf_lif_process_model.png)
 
 
+# Dense is the container type used to create weighted synaptic connections.
+
+```python
+in_size = 1
+out_size = 1500
+# weights are all 1
+weights = np.ones((out_size, in_size)) * 2
+bias = 10 * np.ones(in_size, dtype=np.int32)
+
+input_lif = LIF(shape=(in_size,),
+                du=0,
+                dv=0,
+                bias_mant=bias,
+                bias_exp=6,
+                vth=20)
+output_lif = LIF(shape=(out_size,),
+                  du=4096,
+                  dv=4096,
+                  vth=1536)
+# We can create a very simple set of neural pathways, by taking a uniform weight matrix. The input matrix is `1` by `1500`
+```
+```weights = np.ones((out_size, in_size)) * 2```
+
+Multiple Choice question, what is the connection type:
+
+(a) all-to-all,
+(b) many-to-one
+(c) one-to-many
+
+
+a list of input cells `input_lif` and a list of output cells: `output_lif`, and connecting them together with the Dense container. Basically the dense container, upgrades the type of a numpy matrix. 
+
+dense = Dense(weights=weights)
+input_lif.s_out.connect(dense.s_in)
+dense.a_out.connect(output_lif.a_in)
+for j in range(4): input_lif.run(condition=run_cnd, run_cfg=run_cfg)
+ 
 
 ### Background:
 
