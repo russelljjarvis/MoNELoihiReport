@@ -244,7 +244,7 @@ PROMPT_COMMAND='history -a'
 ```
 
 Exercises:
-Execute the following BASH code and explain what it does in a few sentences (1 mark):
+Execute the following BASH code and explain what it does in a few sentences (1 /15 marks):
 ```
 cd ~;
 mkdir lava
@@ -260,7 +260,7 @@ pip install lava-nc-loihi-0.4.0.tar.gz
 the `echo` command is analogous to `print` in Python, except it echo requires no braces for its arguments to print. `>>` means redirect. Redirection means instead of printing something to the screen, print the stdout to a file instead.
 
 #### Exercises:
-Continued from above execute the following BASH code and explain what it does in a few sentences (same 1 as above mark):
+Continued from above execute the following BASH code and explain what it does in a few sentences (same 1/15 as above mark):
 ```
 echo export SLURM=1  >> ~/.bashrc
 echo export C_INCLUDE_PATH=\$C_INCLUDE_PATH:$(python3 -c "import nxcore; print(nxcore.__path__[0])")/include >> ~/.bashrc
@@ -269,7 +269,7 @@ echo export C_INCLUDE_PATH=\$C_INCLUDE_PATH:$(pwd)/lava-nc-loihi-0.4.0/tutorials
 
 
 #### Be Careful With the Following: 
-* **Don't** execute the following, but for one mark explain what it does.
+* **Don't** execute the following, but for one mark explain what it does (2/15 marks).
 
 
 ```
@@ -287,6 +287,8 @@ SLURM=1 LOIHI_GEN=N3B3 PARTITION=oheogulch RUN_LOIHI_TESTS=1 RUN_IT_TESTS=1 pyth
 
 Finally for 2 marks open VIM or Nano, instance those respective programs with a file name such as test lava: `vim lava_test.py`
 `nano lava_test.py`
+
+4/15 marks. If I saw you do this in the lab there is no need to do anything in the report.
 
 paste the following contents into the file:
 
@@ -319,7 +321,7 @@ Now apply Python to this script with:
 `SLURM=1 python lava_test.py`
 
 
-For the rest of the marks do the following:
+For the rest of the marks (11/15) do the following:
 
 We want to profile the run time of the whole script. 
 
@@ -352,10 +354,20 @@ Now make four copies of the file:
 
 Edit these four different files in-order to reflect these four different conditions:
 
+In your markdown report make a table like the following:
+
 |       | Hardware |  CPU simulation |
 | ----------- | ----------- | ----------- |
-| layer size     | 1       |  1       |
-| layer size    | 100        |  100        |
+| layer size  1   | profile execution speed  |  profile execution speed   |
+| layer size  100  | profile execution speed |  profile execution speed  | 
+
+Populate the table by filling in the appropriate profile execution speed
+
+|       | Hardware |  CPU simulation |
+| ----------- | ----------- | ----------- |
+| layer size  1   | profile execution speed  |  profile execution speed   |
+| layer size  100  | profile execution speed |  profile execution speed  | 
+
 
 Now we want to make the network bigger, and we want to explore how making the network bigger slows down CPU performance.
 
