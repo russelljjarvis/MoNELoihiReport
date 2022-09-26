@@ -9,16 +9,24 @@
     r.jarvis@westernsydney.edu.au
 </h3>
 
-### Take Home Assessment
-Weight: `30%` Type of Collaboration: Individual Submission: Weeks 9 by Friday 11:59pm (midnight) Turnit in, or optionally Markdown file or jupyter notebook on Github (just like this file, iself).
+<summary>
+<h3>
+Take Home Assessment
+</h3>
+</summary>
 
-Format
-The report will consist of 1000−1200 words and several figures. This report aims to demonstrate the completion of assigned pre works and labwork in programming Loihi. 
+<details>
+      
+* Weight: `30%` Type of Collaboration: Individual Submission: Weeks 9 by Friday 11:59pm (midnight) Turnit in, or optionally Markdown file or jupyter notebook on Github (just like this file, iself).
+
+* Format: The report will consist of 1000−1200 words and several figures. This report aims to demonstrate the completion of assigned pre works and labwork in programming Loihi. You should use a markdown file the easiest and most portable way to do that is to make a copy of this file, and edit as if it is a template.
 
 References, quotes, and appendices are not part of the word count. Length: 1200 words. You can include screenshots from todays Intel ssh experience, you can also paste BASH commands and Python code directly into markdown cells.
 
 Note that today's tutorial is the easier of the two tutorials, but the technical skills taught today are the foundation for next Week's tutorial.
 
+</details>
+      
 ### Assessable parts of todays tutorial:
 
 Most of the exercises are worth one mark if you describe them in the report next week. The work we cover today will add up to 15 available points marked on the final report. The final report totals 30 available marks, but it will span content from today's and next week's tutorials.
@@ -48,7 +56,11 @@ Many vendors provide access to POSIX-compliant terminals. For example, there is 
 
 ### Background:
 
-### Why Headless Linux?
+<summary>
+<h3> Why Headless Linux? </h3>
+</summary>
+
+<details>
 On High-Performance Computers, Docker-containers, and resource-restricted hardware environments: Raspberri-PI, NVIDIA Jetson Nano etc. A "head-less" Linux login is often the default interface for accessing the resource. There are multiple reasons for this:
 
 * A graphical Operating System (OS) acts as memory and CPU and load. On a Raspberry Pi, you will likely prefer to keep all the RAM and CPU for developing applications. Using a Raspberry Pi, the graphical OS will probably be unresponsive and clunky, as it is on the Nvidia Jetson Nano.
@@ -66,6 +78,7 @@ After using:
 ssh ncl-edu.research.intel-research.net
 ```
 to log into the Intel superhost, to see the activity of currently logged in users type `top`
+</details>
 
 ### Background
 
@@ -151,7 +164,7 @@ For example: sinfo command:jdnuerf@ncl-edu ~ % sinfo ... or: sinfo command:drice
 #### At least **Five** major ways to program Loihi:
 #### **Lava**, and older methods: NXSDK, NXNET, SNIPS (C code), Nengo-Loihi.
 
-One of the motivations for Lava's existence is because methods for programming Loihi were becoming too fragmented. In some respects, Lava is a unifying glue module analogous to Python and BASH as languages.
+One of the motivations for Lava's existence is because methods for programming Loihi were becoming too fragmented. One of the visions of Lava was that it should be a unifying glue module that was proported to be able to call all of these older methods for running Loihi when appropriate.
 
 ### Lava itself has several components: Lava-DL (Deep Learning), Lava-DNF (Dynamic Neural Fields) and Lava optimisation.
 
@@ -277,7 +290,7 @@ Finally for 2 marks open VIM or Nano, instance those respective programs with a 
 
 paste the following contents into the file:
 
-```
+```python
     # Instantiate Lava processes to build network
     from lava.proc.dense.process import Dense
     from lava.proc.lif.process import LIF
@@ -329,8 +342,20 @@ if __name__ == '__main__':
     stats.print_stats()
 ```
 
-Now make a copy of the file:
-`cp lava_test.py bigger_lava_test.py`
+
+
+Now make four copies of the file:
+`cp lava_test.py bigger_lava_test0.py`
+`cp lava_test.py bigger_lava_test1.py`
+`cp lava_test.py bigger_lava_test2.py`
+`cp lava_test.py bigger_lava_test3.py`
+
+Edit these four different files in-order to reflect these four different conditions:
+
+|       | Hardware |  CPU simulation |
+| ----------- | ----------- | ----------- |
+| layer size     | 1       |  1       |
+| layer size    | 100        |  100        |
 
 Now we want to make the network bigger, and we want to explore how making the network bigger slows down CPU performance.
 
