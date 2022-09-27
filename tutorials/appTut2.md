@@ -42,12 +42,8 @@ In your markdown report make a table like the following:
 | layer size  1   | profile execution speed  |  profile execution speed   |
 | layer size  100  | profile execution speed |  profile execution speed  | 
 
-Populate the table by filling in the appropriate profile execution speed
+... and populate the table by filling in the appropriate profile execution speed
 
-|       | Hardware |  CPU simulation |
-| ----------- | ----------- | ----------- |
-| layer size  1   | profile execution speed  |  profile execution speed   |
-| layer size  100  | profile execution speed |  profile execution speed  | 
 
 
 ## Exercise Overview:
@@ -250,27 +246,37 @@ output_lif = LIF(shape=(out_size,),
                   du=4096,
                   dv=4096,
                   vth=1536)
-# We can create a very simple set of neural pathways, by taking a uniform weight matrix. The input matrix is `1` by `1500`
 ```
-```weights = np.ones((out_size, in_size)) * 2```
 
-Multiple Choice question, what is the connection type:
+* A list of input cells `input_lif` and a list of output cells: `output_lif`, and connecting them together with the Dense container. Basically the dense container, upgrades the type of a numpy matrix.
 
+* We can create a very simple set of neural pathways, by taking a uniform weight matrix. The input matrix is `1` by `1500`
+```
+```python
+weights = np.ones((out_size, in_size)) * 2
+
+```
+
+
+<summary> Multiple Choice question, what is the connection type: 
+</summary>
+
+<details>
 (a) all-to-all,
 (b) many-to-one
 (c) one-to-many
+</details>
 
-
-a list of input cells `input_lif` and a list of output cells: `output_lif`, and connecting them together with the Dense container. Basically the dense container, upgrades the type of a numpy matrix. 
 
 ```python
 dense = Dense(weights=weights)
 input_lif.s_out.connect(dense.s_in)
 dense.a_out.connect(output_lif.a_in)
-for j in range(4): input_lif.run(condition=run_cnd, run_cfg=run_cfg)
+for j in range(4): 
+  input_lif.run(condition=run_cnd, run_cfg=run_cfg)
 ```
 
-### Exercises:
+### Background:
 
 
 <summary>
