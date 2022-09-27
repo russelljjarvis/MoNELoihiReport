@@ -22,6 +22,34 @@
 
 * Note that today's tutorial is the harder of the two tutorials, but the technical skills taught today are the foundation for next Week's tutorial.
 
+
+### House Keeping on Last Weeks Tutorial
+
+
+
+Now make four copies of the file:
+`cp lava_test.py bigger_lava_test0.py`
+`cp lava_test.py bigger_lava_test1.py`
+`cp lava_test.py bigger_lava_test2.py`
+`cp lava_test.py bigger_lava_test3.py`
+
+Edit these four different files in-order to reflect these four different conditions:
+
+In your markdown report make a table like the following:
+
+|       | Hardware |  CPU simulation |
+| ----------- | ----------- | ----------- |
+| layer size  1   | profile execution speed  |  profile execution speed   |
+| layer size  100  | profile execution speed |  profile execution speed  | 
+
+Populate the table by filling in the appropriate profile execution speed
+
+|       | Hardware |  CPU simulation |
+| ----------- | ----------- | ----------- |
+| layer size  1   | profile execution speed  |  profile execution speed   |
+| layer size  100  | profile execution speed |  profile execution speed  | 
+
+
 ## Exercise Overview:
 By the end of todays tutorial you can say that you have edited an online app...
 and by the end of the week you can say you have used GitHub to deploy your own version of said web-app.
