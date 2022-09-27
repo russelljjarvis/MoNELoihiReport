@@ -23,9 +23,7 @@
 * Note that today's tutorial is the harder of the two tutorials, but the technical skills taught today are the foundation for next Week's tutorial.
 
 
-### House Keeping on Last Weeks Tutorial
-
-
+## House Keeping on Last Weeks Tutorial
 
 Now make four copies of the file:
 `cp lava_test.py bigger_lava_test0.py`
@@ -41,6 +39,12 @@ In your markdown report make a table like the following:
 | ----------- | ----------- | ----------- |
 | layer size  1   | profile execution speed  |  profile execution speed   |
 | layer size  100  | profile execution speed |  profile execution speed  | 
+
+|       | Hardware |  CPU simulation |
+| ----------- | ----------- | ----------- |
+| layer size  1   | from bigger_lava_test0.py |from bigger_lava_test1.py |
+| layer size  100  | from bigger_lava_test2.py | from bigger_lava_test3.py | 
+
 
 ... and populate the table by filling in the appropriate profile execution speed
 
@@ -62,7 +66,7 @@ As I said before I encorouge you to submit the final report as a markdown docume
 
 We will look at two pre-existing Unit test files in the lava-loihi tests directory, run the two files to completion. We will comment out any method decorators that look like they would stop test execution.
 
-#### Readability Comments.
+### Readability Comments.
 Your main job task is to run the pre-existing unit tests and write readability-comments to explain the function of particular lines of code. 
 When you have commented the unit tests, you can copy particular unit test file lines of code, including your read-ability comments, and paste them into the final markdown report document. Please also copy the name of the file you are commenting.
 
@@ -82,17 +86,18 @@ intel
 
 ### SLURM Zombies, and regular Linux Zombies.
 
-You can easily create zombie processes by putting unhaltable code in the background, and then logging out of a resource. Your job we will keep running there in the background.
-
-* How to kill your zombie processes:
-  * SLURM `scancel`.
-  * Linux everywhere else: `top`, and `kill`.
+You can easily create zombie processes by putting unhaltable code in the background, and then logging out of a resource. Your job we will keep running there in the background. A lot of people think its good to kill zombies.
 
 If you have created a zombie process you can find its job id with:
 ```
 top
 ```
 Top prints out a table with process id's in the left hand column. You can kill the zombie process, by running `scancel`, in this context scancel behaves like the `kill` on command on desktop linux.
+
+
+* How to kill your zombie processes:
+  * SLURM `scancel`.
+  * Linux everywhere else: `top`, and `kill`.
 
 ### More aliases to speed up Linux CLI Experience.
 
@@ -316,7 +321,6 @@ dense = Dense(weights=np.random.rand(1, 1))
 lif2 = LIF(shape=(1, ))
 ```
 
-![](loihi_fig/process_diagram0.png)
 
 <!--![](loihi_fig/process_diagram1.png)-->
 
@@ -341,12 +345,14 @@ lif1.run(condition=RunSteps(num_steps=10), run_cfg=Loihi2HwCfg())
 lif1.stop()
 ```
 
+![](loihi_fig/process_diagram0.png)
+**A Lava process can be a whole network, a single neuron, or a different chunk of regular Python code that controls a drone. All of these parallel processes can send messages with each other through their ports, they can also run in parallel and their execution can be synchronous or asynchronous**
 
 ![processes_pic_expl.png](loihi_fig/processes_pic_expl.png)
 **If you really want to get techical about directionality of ports consult the above diagram.**
 
 ![processes_pic_expl.png](loihi_fig/processes_pic2_expl.png)
-**A Lava process can be a whole network, a single neuron, or a different chunk of regular Python code that controls a drone. All of these parallel processes can send messages with each other through their ports, they can also run in parallel and their execution can be synchronous or asynchronous**
+**If you write lava so that each neuron is its own process, then each neuron requires it's own input and output ports. Alternatively, if you make a process a population of neurons then you only have to manage input and output ports of populations of cells.**
 
 
 ![](loihi_fig/the_notion_of_a_port2.png)
@@ -359,18 +365,22 @@ A convention you will notice is that InPorts have the attribute `ProcessModel().
 
 Magma is the proprietary core of Lava, it has the Loihi drivers. Lava is an abstraction layer that sits above Magma. Although magma is propietarary, as Intel Cloud users you can still view code that is closely coupled with Magma source code, and this is what we will do in the second half of todays tutorial.
 
-
+<!---
 ![](loihi_fig/the_notion_of_a_port.svg)
+
 *In the figure above you can see how all of the various Lava processes are coupled together with input ports (green) and output ports (blue)*
 
 BAP (Backwards Action Potentials) are propogated through from the pre-synaptic LIF to the post-synaptic LIF via a plastic synapse population contained by the Dense data type.
-<!---![](loihi_fig/the_notion_of_a_leaf.png)-->
-
-
+<!---![](loihi_fig/the_notion_of_a_leaf.png)
 ![](loihi_fig/the_notion_of_a_port3.png)
-### Loihi Architecture Overview. 
 
-#### The Lava task-graph.
+--->
+
+
+### Lava Architecture Overview. 
+
+<summary> <h4> The Lava task-graph </h4> </summary>
+<details>
 
 In Lava design all of the different processes that make up a Network simulation, all of the processes are constructed togethor into a compute job task-graph. This is a bit similar to other parallel computing paradigms like Python Dask.
 
@@ -378,18 +388,18 @@ Calling run on a leaf-node (or root node) is sufficient to run the network compr
 
 ![](loihi_fig/leaf_lif_process_model.png)
 
+</details>
 
-# Loihi supports graded spike amplitudes, and that makes certain things possible.
-As I said in the previous tutorial, Loihi spikes are large and graded.
+<summary> <h4> Loihi supports graded spike amplitudes, and that makes certain algorithms possible. </h4> </summary>
+<details>
+* As I said in the previous tutorial, Loihi spikes are large and graded.
 
+* In the one of two unit test files I want you to run and document, you will see an example of graded spikes.
 
-Ports are abstractions around processes. If a process has an in-port and an out-port it can be communicated with.
+<!--Ports are abstractions around processes. If a process has an in-port and an out-port it can be communicated with.-->
 
-
-Suppose you are programming in a manner where you record spike times but not raw neuron voltages. 
-
-In that case, you may not notice that the simulated membrane potential of a current-based Loihi neuron is unitless and swings between $[−100,000,99,999]$**. Remember that $[-90,-50] mV$ is a normal range of neuron membrane potential in biologically grounded models like the standard LIF model. On Loihi this range has been re-normalised to be $ [-2^{23}, 2^{23
-  *Unusual property of vt(t) it has highly non-biological plausible values $ [-100,000, 99,999] mV$ is normal.
+Reminder, that, you may not notice that the simulated membrane potential of a current-based Loihi neuron is unitless and swings between $[−100,000,99,999]$**. Remember that $[-90,-50] mV$ is a normal range of neuron membrane potential in biologically grounded models like the standard LIF model. On Loihi this range has been re-normalised to be $ [-2^{23}, 2^{23
+  *Unusual property of vt(t) it has highly non-biological plausible values $ [-100,000, 99,999] $ is normal.
 
 ```python
 self.assertListEqual(v_in, [640.0, 1280.0, 128.0, 640.0])
@@ -414,21 +424,15 @@ self.assertListEqual(v_out, [0.0, 0.0, 0.0, 640.0])
 ![Loihi_CUBA_model_param.png](loihi_fig/Loihi_CUBA_model_param.png)
 **Gotcha: Remember this diagram which just shows that voltages have unbiological range, and that spikes can be graded.**
 
+</details>
 
 
 ### Exercises Continued...
-#### In BASH:
 
-#### Exercises:
-
-<summary>
-
-### Streamlit application Interactive Web application
-
-</summary>
+<summary> <h4> Streamlit application Interactive Web application </h4> </summary>
 
 <details>
-  I will provide boiler plate code and established packages that calculate spike time co-efficient of variation $CV$ and spike train distance.
+  I have provided boiler plate code and established packages that calculate spike time co-efficient of variation $CV$ and spike train distance.
 
   re-apply this template code on Loihi network simulator activity to regular periodic firing and irregular firing network activity. 
 
@@ -447,12 +451,14 @@ self.assertListEqual(v_out, [0.0, 0.0, 0.0, 640.0])
 ### Background:
 <summary>
 
-<h4> Reservoir Computing and Echo State balanced E/I networks. </h4>
-
-Lava now supports STDP and "balanced" Excitatory/Inhibitory biological networks, however, whether any one can install and run them is a different question. I have managed the task of installing, these big packages using streamlit for you.
+<h4> Echo State balanced E/I networks. </h4>
 </summary>
 
+
+
 <details>
+* Lava now supports STDP and "balanced" Excitatory/Inhibitory biological networks, however, whether any one can install and run them is a different question. I have managed the task of installing, these big packages using streamlit for you.
+
 Take the spike trains corresponding to cells 18 and 23 [](https://github.com/russelljjarvis/lava/blob/main/tutorials/end_to_end/tutorial02_excitatory_inhibitory_network.ipynb
 ) of the notebook. Flesch out the skeleton methods provided on [](https://github.com/russelljjarvis/lava/blob/main/app.py#L622-L636) to compute the Interspike Interval arrays and the Coefficient of Variation of the spike trains.
 
@@ -474,6 +480,7 @@ https://github.com/neuromorphicsystems/lava
 These two repositories are stop gap locations that will serve you until you have streamlit-share accounts.
 
 Edit the files in the web and flescht out the missing functions for computing $ CV_{ISI} $, caption the all of the raster plots in the app with the CV. Also edit figure call-outs into the application markdown discussion about the autocovariance. Discuss the auto covariance plot and how $ CV_{ISI} $ relates to the covariance plots. You can also plot the $ CV_{ISI} $ per-neuron as a vector.
+
 </details>
 
 
