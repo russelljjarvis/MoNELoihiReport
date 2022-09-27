@@ -469,7 +469,7 @@ Use your GitHub account to invite yourself to streamlit-cloud aka streamlit shar
 ![](https://streamlit.io/cloud)
 Streamlit-share is able to build applications from git repositories
 
-You have both been granted administrative access to two different copies of the same repository lava. You should both edit the versions of the file app.py found in each of these two respective places:
+* You have both been granted administrative access to two different copies of the same repository lava. You should both edit the versions of the file app.py found in each of these two respective places:
 
 Damien:
 https://github.com/russelljjarvis/lava
@@ -477,10 +477,32 @@ https://github.com/russelljjarvis/lava
 Josh:
 https://github.com/neuromorphicsystems/lava
 
-These two repositories are stop gap locations that will serve you until you have streamlit-share accounts.
+* These two repositories are stop gap locations that will serve you until you have streamlit-share accounts.
 
 Edit the files in the web and flescht out the missing functions for computing $ CV_{ISI} $, caption the all of the raster plots in the app with the CV. Also edit figure call-outs into the application markdown discussion about the autocovariance. Discuss the auto covariance plot and how $ CV_{ISI} $ relates to the covariance plots. You can also plot the $ CV_{ISI} $ per-neuron as a vector.
 
+$ CV=\frac{Var(ISI_Vec)}{mean(ISI_Vec)} $
+
+[Functions are here:](https://github.com/russelljjarvis/lava/blob/main/app.py#L723-L738)
+
+```python
+def compute_ISI(spks):
+    # hint spks is a 2D matrix, get a 1D Vector per neuron-id spike train.
+    # [x for ind,x in enumerate(spks)]
+    pass
+    # return an array of ISI_arrays.
+
+def compute_ISI_CV(ISI_array):
+    # hint
+    # [x for ind,x in enumerate(spks)]
+    pass
+    # return a vector of scalars: ISI_CV
+
+def average(ISI_CV):
+    # use numpy to mean the vector of ISI_CVs
+    # return a scalar.
+    pass
+```
 </details>
 
 
