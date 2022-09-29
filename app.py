@@ -8,7 +8,6 @@ st.title("Lava Spike Train Processing Exercise...")
 
 st.markdown("[Link to Code That Generated The Plots:](https://github.com/russelljjarvis/lava/blob/main/tutorials/end_to_end/tutorial02_excitatory_inhibitory_network.ipynb)")
 
-st.markdown("# the List of Data Files:")
 files = glob.glob("pickle/*.p")
 
 
@@ -17,6 +16,8 @@ options = ["no","yes"]
 radio_out_f = st.sidebar.radio(labels,options)
 
 if radio_out_f=="yes":
+    st.sidebar.markdown("# the List of Data Files:")
+
     st.sidebar.write(pd.DataFrame(pd.Series(files)))
 
 labels = "tables or spike_raster?"
