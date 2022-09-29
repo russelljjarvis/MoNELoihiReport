@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 import glob
 
-files = glob.glob("*.p")
+files = glob.glob("pickle/*.p")
 
 st.markdown("# the List of Data Files:")
 st.write(pd.DataFrame(pd.Series(files)).T)
