@@ -23,7 +23,6 @@ dict_of_spike_file_contents.setdefault('critical', [])
 dict_of_spike_file_contents.setdefault('critical_fixed', [])
 
 for f in files:
-    st.markdown(str(f))
     with open(str(f),"rb") as fto:
         file_contents = pickle.load(fto)
         if len(file_contents[1].keys())>98:
