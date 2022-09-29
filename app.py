@@ -4,18 +4,28 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import glob
+st.title("Lava Spike Train Processing Exercise...")
 
-files = glob.glob("pickle/*.p")
+st.markdown("[Link to Code That Generated The Plots:](https://github.com/russelljjarvis/lava/blob/main/tutorials/end_to_end/tutorial02_excitatory_inhibitory_network.ipynb)")
 
 st.markdown("# the List of Data Files:")
-st.write(pd.DataFrame(pd.Series(files)).T)
+files = glob.glob("pickle/*.p")
+
+
+labels = "see file names?"
+options = ["no","yes"]
+radio_out_f = st.sidebar.radio(labels,options)
+
+if radio_out_f=="yes":
+    st.sidebar.write(pd.DataFrame(pd.Series(files)))
+
 labels = "tables or spike_raster?"
 options = ["spk","tb"]
-radio_out = st.radio(labels,options)
+radio_out = st.sidebar.radio(labels,options)
 
 labels = "regime: balanced, critical, critical_fixed?"
 options = ["balanced","critical","critical_fixed"]
-radio_out_r = st.radio(labels,options)
+radio_out_r = st.sidebar.radio(labels,options)
 
 dict_of_spike_file_contents = {}
 dict_of_spike_file_contents.setdefault('balanced', [])
@@ -49,6 +59,8 @@ def wrangle_frame(frame)->None:
         st.markdown("""Print data not available""")
 
 def plot_raster(spike_dict)->None:
+    st.markdown("### The raster plot:")
+
     fig = plt.figure()
     list_of_lists = []
     for ind,(neuron_id,times) in enumerate(spike_dict.items()):
@@ -63,7 +75,7 @@ def wrangle(spike_dict)->[[]]:
         list_of_lists.append(times)
         if np.max(times)> maxt:
             maxt = np.max(times)
-    st.markdown("## The Dimensions are as follows, Number of cells:")
+    st.markdown("#### The Network Dimensions are as follows, Number of cells:")
     st.markdown(np.shape(list_of_lists))
     st.markdown("## Simulation Time Duration (ms):")
     st.markdown(maxt)
@@ -71,19 +83,17 @@ def wrangle(spike_dict)->[[]]:
 
 
 
-st.markdown("[Link to Code That Generated The Plots:](https://github.com/russelljjarvis/lava/blob/main/tutorials/end_to_end/tutorial02_excitatory_inhibitory_network.ipynb)")
 
 spikes_in_list_of_lists_of_lists = []
 
 for keys,values in dict_of_spike_file_contents.items():
     for x in values:
-        st.markdown("Regime: "+str(keys))
+        st.markdown("## Network Regime: "+str(keys))
         #st.markdown(v)
         if radio_out == "tb":
             st.markdown("### The spike raster plot matrix as a table (column items cell index, row items spike times):")
             wrangle_frame(x[0])
         if radio_out == "spk":
-            st.markdown("# The raster plot:")
             plot_raster(x[1])
         spikes_in_list_of_lists_of_lists.append(wrangle(x[1]))
 
