@@ -1,5 +1,4 @@
 numpy
-scipy
 streamlit
 matplotlib 
 pandas 
