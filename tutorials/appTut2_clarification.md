@@ -20,6 +20,15 @@ The streamlit module/object includes all of the methods that you would use to pr
 streamlit run python_file.py
 ```
 
+The following app code and repository does not depend on Lava (to make life easier for you). The app code is very simple to install as it only depends on numpy, streamlit, and matplot lib, its not actually doing network scale computations its just loading cached data. It is simple enough to run on your own machine, to run just do: 
+```BASH 
+pip install streamlit
+git clone fun-zoological-computing/MoNELoihiTutorial
+cd Loihi_hardware_tutorial
+streamlit run app.py
+```
+Edit the file app.py in visual studio or to add figure captions or ISI and ISI_CV calculations.
+
 ### Caption 2 or More of 10 Different Figures. 
 
 * If you choose to caption figures that belong to different network regimes you can refer back to the Ipython notebook to describe  reflect these four different conditions (Balanced, Critical and Critical Fixed).
