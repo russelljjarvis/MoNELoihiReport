@@ -99,9 +99,7 @@ for keys,values in dict_of_spike_file_contents.items():
 
 
 def compute_ISI(spks):
-    """
-    Damien's code.
-    """
+
     # hint spks is a 2D matrix, get a 1D Vector per neuron-id spike train.
     # [x for ind,x in enumerate(spks)]
     # spkList = [x for ind,x in enumerate(spks)]
