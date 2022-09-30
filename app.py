@@ -111,7 +111,7 @@ else:
             spikes_in_list_of_lists_of_lists.append(wrangle(x[1]))
 
 
-def compute_ISI(spks):
+def compute_ISI(spks:[])->[]:
     """
     """
     # hint spks is a 2D matrix, get a 1D Vector per neuron-id spike train.
@@ -124,15 +124,19 @@ def compute_ISI(spks):
     # return an array of ISI_arrays.
 
 
-def compute_ISI_CV(spks):
+def compute_ISI_CV(spks:[])->[]:
     ISIs = compute_ISI(spks)
+    """
+    """
     # hint
     # [x for ind,x in enumerate(spks)]
     pass
     # return a vector of scalars: ISI_CV
 
 
-def average(ISI_CV):
+def average(ISI_CV:[])->float:
+    """
+    """
     # use numpy to mean the vector of ISI_CVs
     # return a scalar.
     pass
