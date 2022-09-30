@@ -462,8 +462,6 @@ self.assertListEqual(v_out, [0.0, 0.0, 0.0, 640.0])
 Take the spike trains corresponding to cells 18 and 23 [](https://github.com/russelljjarvis/lava/blob/main/tutorials/end_to_end/tutorial02_excitatory_inhibitory_network.ipynb
 ) of the notebook. Flesch out the skeleton methods provided on [](https://github.com/russelljjarvis/lava/blob/main/app.py#L622-L636) to compute the Interspike Interval arrays and the Coefficient of Variation of the spike trains.
 
-The $ ISI_{CV} $ is actually less useful than the auto-covariance measures calculated 
-
 Use your GitHub account to invite yourself to streamlit-cloud aka streamlit share.
 
 ![](https://streamlit.io/cloud)
@@ -479,7 +477,7 @@ https://github.com/neuromorphicsystems/lava
 
 * These two repositories are stop gap locations that will serve you until you have streamlit-share accounts.
 
-Edit the files in the web and flescht out the missing functions for computing $ CV_{ISI} $, caption the all of the raster plots in the app with the CV. Also edit figure call-outs into the application markdown discussion about the autocovariance. Discuss the auto covariance plot and how $ CV_{ISI} $ relates to the covariance plots. You can also plot the $ CV_{ISI} $ per-neuron as a vector.
+Edit the files in the web and flescht out the missing functions for computing $ CV_{ISI} $, caption the all of the raster plots in the app with the CV.
 
 $ CV=\frac{Var(ISI_Vec)}{mean(ISI_Vec)} $
 
