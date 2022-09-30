@@ -28,25 +28,29 @@ labels = "regime: balanced, critical, critical_fixed?"
 options = ["balanced","critical","critical_fixed"]
 radio_out_r = st.sidebar.radio(labels,options)
 
-dict_of_spike_file_contents = {}
-dict_of_spike_file_contents.setdefault('balanced', [])
-dict_of_spike_file_contents.setdefault('critical', [])
-dict_of_spike_file_contents.setdefault('critical_fixed', [])
+def load_files(files:[])->dict:
 
-for f in files:
-    with open(str(f),"rb") as fto:
-        file_contents = pickle.load(fto)
-        if len(file_contents[1].keys())>98:
-            if str("pickle_0_") in f:
-                if radio_out_r=="balanced":
-                    dict_of_spike_file_contents["balanced"].append(file_contents)
-            if str("pickle_1_") in f:
-                if radio_out_r=="critical":
-                    dict_of_spike_file_contents["critical"].append(file_contents)
-            if str("pickle_2_") in f:
-                if radio_out_r=="critical_fixed":
-                    dict_of_spike_file_contents["critical_fixed"].append(file_contents)
+    dict_of_spike_file_contents = {}
+    dict_of_spike_file_contents.setdefault('balanced', [])
+    dict_of_spike_file_contents.setdefault('critical', [])
+    dict_of_spike_file_contents.setdefault('critical_fixed', [])
 
+    for f in files:
+        with open(str(f),"rb") as fto:
+            file_contents = pickle.load(fto)
+            if len(file_contents[1].keys())>98:
+                if str("pickle_0_") in f:
+                    if radio_out_r=="balanced":
+                        dict_of_spike_file_contents["balanced"].append(file_contents)
+                if str("pickle_1_") in f:
+                    if radio_out_r=="critical":
+                        dict_of_spike_file_contents["critical"].append(file_contents)
+                if str("pickle_2_") in f:
+                    if radio_out_r=="critical_fixed":
+                        dict_of_spike_file_contents["critical_fixed"].append(file_contents)
+    return dict_of_spike_file_contents
+
+dict_of_spike_file_contents = load_files(files)
 
 
 def wrangle_frame(frame)->None:
@@ -59,7 +63,9 @@ def wrangle_frame(frame)->None:
     else:
         st.markdown("""Print data not available""")
 
-def plot_raster(spike_dict)->None:
+
+
+def plot_raster(spike_dict:dict)->None:
     st.markdown("### The raster plot:")
 
     fig = plt.figure()
@@ -69,7 +75,7 @@ def plot_raster(spike_dict)->None:
     plt.eventplot(list_of_lists)
     st.pyplot(fig)
 
-def wrangle(spike_dict)->[[]]:
+def wrangle(spike_dict:dict)->[[]]:
     list_of_lists = []
     maxt=0
     for ind,(neuron_id,times) in enumerate(spike_dict.items()):
@@ -85,23 +91,28 @@ def wrangle(spike_dict)->[[]]:
 
 
 
-spikes_in_list_of_lists_of_lists = []
+uploaded_file = st.sidebar.file_uploader("Upload Spike Trains To Compute CV on.")
+if uploaded_file is not None:
+    spks_dict_of_dicts = pickle.loads(uploaded_file.read())
+    st.write("spikes loaded")
+    st.markdown(spks_dict_of_dicts)
+else:
+    spikes_in_list_of_lists_of_lists = []
 
-for keys,values in dict_of_spike_file_contents.items():
-    for x in values:
-        st.markdown("## Network Regime: "+str(keys))
-        #st.markdown(v)
-        if radio_out == "tb":
-            st.markdown("### The spike raster plot matrix as a table (column items cell index, row items spike times):")
-            wrangle_frame(x[0])
-        if radio_out == "spk":
-            plot_raster(x[1])
-        spikes_in_list_of_lists_of_lists.append(wrangle(x[1]))
+    for keys,values in dict_of_spike_file_contents.items():
+        for x in values:
+            st.markdown("## Network Regime: "+str(keys))
+            #st.markdown(v)
+            if radio_out == "tb":
+                st.markdown("### The spike raster plot matrix as a table (column items cell index, row items spike times):")
+                wrangle_frame(x[0])
+            if radio_out == "spk":
+                plot_raster(x[1])
+            spikes_in_list_of_lists_of_lists.append(wrangle(x[1]))
 
 
 def compute_ISI(spks):
     """
-    Damien's code.
     """
     # hint spks is a 2D matrix, get a 1D Vector per neuron-id spike train.
     # [x for ind,x in enumerate(spks)]
