@@ -40,6 +40,11 @@ def raster_plot(spks, stride=1, fig=None, color='b', alpha=1):
     stride : int
         Stride for plotting neurons
     """
+    if type(spks) is type(List):
+        spks = np.array(spks)
+    else:
+        pass    
+
     num_time_steps = spks.shape[1]
     assert stride < num_time_steps, "Stride must be smaller than number of time steps"
     
