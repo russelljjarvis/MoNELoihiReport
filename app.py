@@ -40,7 +40,7 @@ def raster_plot(spks, stride=1, fig=None, color='b', alpha=1):
     stride : int
         Stride for plotting neurons
     """
-    if type(spks) is type(List):
+    if type(spks) is type([]):
         spks = np.array(spks)
     else:
         pass    
@@ -60,7 +60,7 @@ def raster_plot(spks, stride=1, fig=None, color='b', alpha=1):
     plt.ylabel('Neurons')
     
     for i in range(0, dim, stride):
-        spike_times = time_steps[spks[i] == 1]
+        spike_times = np.array(time_steps[spks[i] == 1])
         plt.plot(spike_times,
                  i * np.ones(spike_times.shape),
                  linestyle=' ',
