@@ -11,6 +11,7 @@ st.markdown("[Link to Code That Generated The Plots:](https://github.com/russell
 files = glob.glob("pickle/*.p")
 
 
+
 labels = "see file names?"
 options = ["no","yes"]
 radio_out_f = st.sidebar.radio(labels,options)
@@ -27,6 +28,43 @@ radio_out = st.sidebar.radio(labels,options)
 labels = "regime: balanced, critical, critical_fixed?"
 options = ["balanced","critical","critical_fixed"]
 radio_out_r = st.sidebar.radio(labels,options)
+
+def raster_plot(spks, stride=1, fig=None, color='b', alpha=1):
+    """Generate raster plot of spiking activity.
+    
+    Parameters
+    ----------
+    
+    spks : np.ndarray shape (num_neurons, timesteps)
+        Spiking activity of neurons, a spike is indicated by a one    
+    stride : int
+        Stride for plotting neurons
+    """
+    num_time_steps = spks.shape[1]
+    assert stride < num_time_steps, "Stride must be smaller than number of time steps"
+    
+    time_steps = np.arange(0, num_time_steps, 1)
+    if fig is None:
+        fig = plt.figure(figsize=(10,5))
+    timesteps = spks.shape[1]
+    
+    plt.xlim(-1, num_time_steps)
+    plt.yticks([])
+    
+    plt.xlabel('Time steps')
+    plt.ylabel('Neurons')
+    
+    for i in range(0, dim, stride):
+        spike_times = time_steps[spks[i] == 1]
+        plt.plot(spike_times,
+                 i * np.ones(spike_times.shape),
+                 linestyle=' ',
+                 marker='o',
+                 markersize=1.5,
+                 color=color,
+                 alpha=alpha)
+        
+    return fig       
 
 def load_files(files:[])->dict:
 
@@ -108,6 +146,11 @@ else:
                 wrangle_frame(x[0])
             if radio_out == "spk":
                 plot_raster(x[1])
+                try:
+                    raster_plot(x[2])
+                except:
+                    st.markdown(x[2])
+                    st.markdown(type(x[2]))
             spikes_in_list_of_lists_of_lists.append(wrangle(x[1]))
 
 
