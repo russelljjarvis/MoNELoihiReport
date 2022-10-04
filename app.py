@@ -40,12 +40,9 @@ def raster_plot(spks, stride=1, fig=None, color='b', alpha=1):
     stride : int
         Stride for plotting neurons
     """
-    if type(spks) is type([]):
-        spks = np.array(spks)
-    else:
-        pass    
 
     num_time_steps = spks.shape[1]
+    dim = spks.shape[0]
     assert stride < num_time_steps, "Stride must be smaller than number of time steps"
     
     time_steps = np.arange(0, num_time_steps, 1)
@@ -59,8 +56,8 @@ def raster_plot(spks, stride=1, fig=None, color='b', alpha=1):
     plt.xlabel('Time steps')
     plt.ylabel('Neurons')
     
-    for i in range(0, dim, stride):
-        spike_times = np.array(time_steps[spks[i] == 1])
+    for i in range(0, dim-1, stride):
+        spike_times = time_steps[spks[i] == 1]
         plt.plot(spike_times,
                  i * np.ones(spike_times.shape),
                  linestyle=' ',
@@ -145,17 +142,12 @@ else:
     for keys,values in dict_of_spike_file_contents.items():
         for x in values:
             st.markdown("## Network Regime: "+str(keys))
-            #st.markdown(v)
             if radio_out == "tb":
                 st.markdown("### The spike raster plot matrix as a table (column items cell index, row items spike times):")
                 wrangle_frame(x[0])
             if radio_out == "spk":
-                plot_raster(x[1])
-                try:
-                    raster_plot(x[2])
-                except:
-                    st.markdown(x[2])
-                    st.markdown(type(x[2]))
+                fig = raster_plot(x[2])
+                st.pyplot(fig)
             spikes_in_list_of_lists_of_lists.append(wrangle(x[1]))
 
 
